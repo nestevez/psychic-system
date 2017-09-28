@@ -1,0 +1,16 @@
+{% extends 'users/main.html' %}
+{% block content %}
+<h1>Register</h1>
+<form action="/" method="post">
+  {% csrf_token %}
+  {{reg_form}}
+  {{pass_form}}
+  <input type="submit" value="Register">
+</form>
+<h1>Log In</h1>
+<form action="/" method="post">
+  {% csrf_token %}
+  {{log_form}}
+  <input type="submit" value="Log In">
+</form>
+{% endblock %}

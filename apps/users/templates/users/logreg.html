@@ -1,14 +1,27 @@
-{% extends 'users/main.html' %}
+{% extends 'users/style.html' %}
 {% block content %}
-<h1>Register</h1>
-<form action="/" method="post">
+<h1>Welcome!</h1>
+{% if messages %}
+  {% for message in messages %}
+    <p>{{message}}</p>
+  {% endfor %}
+{% endif %}
+<h3>Register</h3>
+<form action="{% url 'users:logreg' %}" method="post">
   {% csrf_token %}
-  {{reg_form}}
-  {{pass_form}}
+  {{reg_form.name.label_tag}}
+  {{reg_form.name}}
+  {{reg_form.uname.label_tag}}
+  {{reg_form.uname}}
+  {{reg_form.pw.label_tag}}
+  {{reg_form.pw}}
+  <p>*Password should be at least 8 characters</p>
+  {{reg_form.cpw.label_tag}}
+  {{reg_form.cpw}}
   <input type="submit" value="Register">
 </form>
-<h1>Log In</h1>
-<form action="/" method="post">
+<h3>Log In</h3>
+<form action="{% url 'users:logreg' %}" method="post">
   {% csrf_token %}
   {{log_form}}
   <input type="submit" value="Log In">

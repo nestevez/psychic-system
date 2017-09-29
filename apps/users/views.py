@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
-from django.shortcuts import render, redirect, reverse
+from django.shortcuts import render, redirect
 from django.contrib import messages
+from ..travels import urls
 from .models import *
 from .forms import *
 
@@ -10,7 +11,7 @@ def logreg(request):
     if request.method == 'POST':
         data = request.POST
         errors=[]
-        if 'fname' in data:
+        if 'cpw' in data:
             errors = Users.objects.reg_valid(data)
             if len(errors):
                 for tag, error in errors.iteritems():
@@ -27,44 +28,30 @@ def logreg(request):
     context = {
     'title': "Login and Registration",
     'reg_form': RegForm,
-    'pass_form': PassForm,
     'log_form': LogForm,
     }
     return render(request, 'users/logreg.html', context)
 
-#submits a valid registration data and sets the session
+#submits a valid registration data, sets the session and redirects to dashboard
 def register(request):
     data = request.POST
     pwhash = bcrypt.hashpw(data['pw'].encode(), bcrypt.gensalt(10))
-    Users.objects.create(fname=data['fname'], lname=data['lname'], email=data['email'], pw=pwhash)
+    Users.objects.create(name=data['name'], uname=data['uname'], pw=pwhash)
     set_session(request)
-    return success(request)
+    return redirect('travels:dashboard')
 
-#sets the session when login is valid
+#sets the session when login is valid and redirects to dashboard
 def login(request):
     set_session(request)
-    return success(request)
+    return redirect('travels:dashboard')
 
 #sets the session: sets email as user identifier, sets access as appropriate and sets logged to true
 def set_session(request):
-    request.session['user']=request.POST['email']
-    request.session['access']=Users.objects.get(email=request.POST['email']).access_level
+    request.session['user']=request.POST['uname']
     request.session['logged']=True
-
-#checks if user is logged in. if not, redirects to login page
-def log_check(request):
-    if request.session['logged']==False:
-        return redirect('/')
-
-#renders a success page for successful login
-def success(request):
-    context = {
-    'title': "Successful Initiation"
-    }
-    return render(request,'users/success.html', context)
 
 #clears the session and logs user out
 def logout(request):
     request.session.clear()
     request.session['logged']=False
-    return redirect('/')
+    return redirect('users:logreg')

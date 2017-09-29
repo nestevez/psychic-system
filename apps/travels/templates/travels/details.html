@@ -1,0 +1,18 @@
+{% extends 'travels/header.html' %}
+{% block information %}
+<ul>
+  <h2>{{trip.destination}}</h2>
+  <li>Planned By: {{trip.creator.name}}</li>
+  <li>Description: {{trip.description}}</li>
+  <li>Travel Date From: {{trip.startdate|date:'b d Y'}}</li>
+  <li>Travel Date To: {{trip.enddate|date:'b d Y'}}</li>
+</ul>
+<ul>
+  <h2>Other users' joining the trip:</h2>
+  {% if travelers %}
+    {% for traveler in travelers %}
+      <li>{{traveler.name}}</li>
+    {% endfor %}
+  {% endif %}
+</ul>
+{% endblock %}

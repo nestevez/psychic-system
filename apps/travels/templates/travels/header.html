@@ -1,0 +1,16 @@
+{% extends 'users/style.html' %}
+{% block content %}
+<nav>
+  <ul style="list-style-type: none;">
+    <li><a href="{% url 'travels:dashboard' %}">Home</a></li>
+    <li><a href="{% url 'users:logout' %}">Logout</a></li>
+  </ul>
+</nav>
+{% if messages %}
+  {% for message in messages %}
+    <p>{{message}}</p>
+  {% endfor %}
+{% endif %}
+{% block information %}
+{% endblock %}
+{% endblock %}

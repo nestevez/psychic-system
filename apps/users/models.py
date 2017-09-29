@@ -11,19 +11,19 @@ class UsersManager(models.Manager):
         else:
             return False
 
-    def email_exists(self, email):
+    def uname_exists(self, uname):
         try:
-            exists = Users.objects.get(email=email)
+            exists = Users.objects.get(uname=uname)
             return True
         except Users.DoesNotExist:
             return False
 
     def reg_valid(self, data):
         errors = {}
-        if not Users.objects.name_valid(data['fname']) or not Users.objects.name_valid(data['lname']):
+        if not Users.objects.name_valid(data['name']):
             errors['name'] = "Names can only contain letters."
-        if Users.objects.email_exists(data['email']):
-            errors['email'] = "Email already taken."
+        if Users.objects.uname_exists(data['uname']):
+            errors['uname'] = "Username already taken."
         if data['pw'] != data['cpw']:
             errors['pw'] = "Password and confirmation must match."
         return errors
@@ -31,22 +31,21 @@ class UsersManager(models.Manager):
     def login_valid(self, data):
         errors = {}
         err = False
-        if Users.objects.email_exists(data['email']):
-            saved = Users.objects.get(email=data['email']).pw
+        if Users.objects.uname_exists(data['uname']):
+            saved = Users.objects.get(uname=data['uname']).pw
             if not bcrypt.checkpw(data['pw'].encode(), saved.encode()):
                 err = True
         else:
             err = True
         if err == True:
-            errors['login'] = "Email and password combination does not match any records."
+            errors['login'] = "Username and password combination does not match any records."
         return errors
 
 
 
 class Users(models.Model):
-    fname = models.CharField(max_length=50)
-    lname = models.CharField(max_length=50)
-    email = models.CharField(max_length=255)
+    name = models.CharField(max_length=50)
+    uname = models.CharField(max_length=50)
     pw = models.CharField(max_length=255)
     access_level = models.CharField(max_length=50, default="User")
     created_at = models.DateTimeField(auto_now_add = True)

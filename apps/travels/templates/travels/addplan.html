@@ -1,0 +1,10 @@
+{% extends 'travels/header.html' %}
+{% block information %}
+<h1>Add a Trip</h1>
+<form action="{% url 'travels:add' %}" method="post">
+  {% csrf_token %}
+  {{form}}
+  <br>
+  <input type="submit" value="Add">
+</form>
+{% endblock %}

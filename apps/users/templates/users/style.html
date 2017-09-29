@@ -6,7 +6,7 @@
       {% if title %}
       {{title}}
       {% else %}
-      Psychic System
+      Travel Buddy
       {% endif %}
     </title>
     <link rel='stylesheet' type='text/css' href='https://cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.min.css'/>
@@ -15,11 +15,6 @@
     <div class='container' style='padding:1em'>
       <div class="row">
         <div class="twelve columns">
-          {% if messages %}
-            {% for message in messages %}
-              <p>{{message}}</p>
-            {% endfor %}
-          {% endif %}
           {% block content %}
           {% endblock %}
         </div>

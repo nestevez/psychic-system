@@ -1,7 +1,7 @@
 {% extends 'users/main.html' %}
 {% block content %}
 <h1>SUCCESSSSSSS!!!!!!!!!!</h1>
-<form action="logout/" method="post">
+<form action="{% url 'users:logout' %}" method="post">
   {% csrf_token %}
   <input type="submit" value="Log Out">
 </form>

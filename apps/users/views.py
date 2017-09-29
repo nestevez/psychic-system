@@ -54,7 +54,7 @@ def set_session(request):
 #checks if user is logged in. if not, redirects to login page
 def log_check(request):
     if request.session['logged']==False:
-        return redirect('/')
+        return redirect('users:logreg')
 
 #renders a success page for successful login
 def success(request):
@@ -67,4 +67,4 @@ def success(request):
 def logout(request):
     request.session.clear()
     request.session['logged']=False
-    return redirect('/')
+    return redirect('users:logreg')
